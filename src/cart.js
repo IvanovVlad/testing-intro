@@ -15,7 +15,7 @@ function addToCart(cart, item, count) {
 }
 
 function changeQuantity(cart, id, count) {
-  const cartItem = cart.find(({id}) => id === id);
+  const cartItem = cart.find((item) => item.id === id);
   if (!cartItem) return cart;
   if (count <= 0 || count > cartItem.stock) {
     throw new RangeError();
