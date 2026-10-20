@@ -1,14 +1,12 @@
-function notImplemented() {
-  throw new Error('Корзина ещё не реализована. Сначала прочитайте тесты.');
-}
-
 function addToCart(cart, item, count) {
   if (count === 0 || count > item.stock) {
     throw new RangeError();
   }
   const cartItem = cart.find(({ name }) => name === item.name);
   if (cartItem) {
-    cartItem.quantity += count;
+    const newQuantity = cartItem.quantity + count;
+    if (newQuantity > cartItem.stock) return cart;
+    cartItem.quantity = newQuantity;
     return cart;
   }
 
@@ -19,7 +17,7 @@ function addToCart(cart, item, count) {
 function changeQuantity(cart, id, count) {
   const cartItem = cart.find(({id}) => id === id);
   if (!cartItem) return cart;
-  if (count <= 0 || (cartItem.stock - cartItem.quantity) < count) {
+  if (count <= 0 || count > cartItem.stock) {
     throw new RangeError();
   }
   cartItem.quantity = count;
